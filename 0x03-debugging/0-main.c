@@ -1,13 +1,12 @@
-#inlcude "mian.h"
+include"main.h"
 /**
- * main - test function for positive or negative integer
- * Return : 0
+ * main - function if an integer is posi or nega
+ * Return :0
  */
-
-int main(void)
+int main (void)
 {
-int i ;
+int i;
 i=5;
 positive_or_negative(i);
-return (0) ;
+return (0);
 }
