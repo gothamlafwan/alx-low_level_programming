@@ -1,0 +1,1 @@
+Gojo yowai mo
