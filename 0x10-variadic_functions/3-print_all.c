@@ -1,56 +1,71 @@
 #include "variadic_functions.h"
-	#include <stdarg.h>
-	#include <stdio.h>
+/**
+ * print_string - a function that prints string
+ *
+ * @arg: va arg
+ *
+ * Description: print string or nil;
+ *
+ * Return: nothing
+ */
+void print_string(va_list arg)
+{
+	char *str = va_arg(arg, char *);
 
-
-	/**
-	 * print_all - prints anything
-	 * @format: list of types of arguments passed to the function
-	 */
-	void print_all(const char * const format, ...)
+	if (str == NULL)
 	{
-		int i = 0;
-		char *str, *sep = "";
-
-
-		va_list list;
-
-
-		va_start(list, format);
-
-
-		if (format)
-		{
-			while (format[i])
-			{
-				switch (format[i])
-				{
-					case 'c':
-						printf("%s%c", sep, va_arg(list, int));
-						break;
-					case 'i':
-						printf("%s%d", sep, va_arg(list, int));
-						break;
-					case 'f':
-						printf("%s%f", sep, va_arg(list, double));
-						break;
-					case 's':
-						str = va_arg(list, char *);
-						if (!str)
-							str = "(nil)";
-						printf("%s%s", sep, str);
-						break;
-					default:
-						i++;
-						continue;
-				}
-				sep = ", ";
-				i++;
-			}
-		}
-
-
-		printf("\n");
-		va_end(list);
+		printf("(nil)");
+		return;
 	}
+	printf("%s", str);
+}
 
+/**
+ * print_all - a function that prints anything
+ *
+ * @format: A string of character representing
+ *          the argument types
+ *
+ * Description: If any argument not of type char,
+ *              int, float or char * is ignored
+ *
+ * Return: nothing
+ */
+
+void print_all(const char *const format, ...)
+{
+	va_list ap;
+	int i = 0;
+	int flag = 0;
+
+	va_start(ap, format);
+	while (format && format[i])
+	{
+		switch (format[i])
+		{
+		case 's':
+			print_string(ap);
+			flag = 1;
+			break;
+		case 'i':
+			printf("%d", va_arg(ap, int));
+			flag = 1;
+			break;
+		case 'f':
+			printf("%f", va_arg(ap, double));
+			flag = 1;
+			break;
+		case 'c':
+			printf("%c", (char)va_arg(ap, int));
+			flag = 1;
+			break;
+		}
+		if (flag && format[i + 1])
+		{
+			printf(", ");
+			flag = 0;
+		}
+		i++;
+	}
+	printf("\n");
+}
